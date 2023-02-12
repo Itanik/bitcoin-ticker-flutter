@@ -1,5 +1,7 @@
 # Bitcoin Ticker Flutter
 
+This app is a homework in AppBrewery Flutter course.
+
 An app displaying the current cryptocurrency exchange.
 
 <img src="/Screenshot_20230212_195820.png" width="300">
