@@ -9,7 +9,7 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
-  String selectedCurrency = currenciesList.first;
+  String? _selectedCurrency;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class _PriceScreenState extends State<PriceScreen> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 15.0, horizontal: 28.0),
                             child: Text(
-                              '1 $cryptoName = ? $selectedCurrency',
+                              '1 $cryptoName = ? ${_selectedCurrency ?? currenciesList.first}',
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 fontSize: 20.0,
@@ -53,7 +53,21 @@ class _PriceScreenState extends State<PriceScreen> {
               alignment: Alignment.center,
               padding: const EdgeInsets.only(bottom: 30.0),
               color: Colors.lightBlue,
-              child: null,
+              child: DropdownButton<String>(
+                value: _selectedCurrency,
+                iconEnabledColor: Colors.white,
+                style: const TextStyle(color: Colors.white),
+                dropdownColor: Colors.black,
+                items: currenciesList
+                    .map((curName) => DropdownMenuItem(
+                          value: curName,
+                          child: Text(curName),
+                        ))
+                    .toList(),
+                onChanged: (newValue) => setState(() {
+                  _selectedCurrency = newValue;
+                }),
+              ),
             ),
           ]),
     );
