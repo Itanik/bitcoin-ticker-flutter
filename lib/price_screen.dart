@@ -1,4 +1,7 @@
+import 'dart:io' show Platform;
+
 import 'package:bitcoin_ticker_flutter/coin_data.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PriceScreen extends StatefulWidget {
@@ -10,6 +13,7 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
   String? _selectedCurrency;
+  final Color _bottomContainerColor = Colors.lightBlue;
 
   @override
   Widget build(BuildContext context) {
@@ -52,24 +56,49 @@ class _PriceScreenState extends State<PriceScreen> {
               height: 150.0,
               alignment: Alignment.center,
               padding: const EdgeInsets.only(bottom: 30.0),
-              color: Colors.lightBlue,
-              child: DropdownButton<String>(
-                value: _selectedCurrency,
-                iconEnabledColor: Colors.white,
-                style: const TextStyle(color: Colors.white),
-                dropdownColor: Colors.black,
-                items: currenciesList
-                    .map((curName) => DropdownMenuItem(
-                          value: curName,
-                          child: Text(curName),
-                        ))
-                    .toList(),
-                onChanged: (newValue) => setState(() {
+              color: _bottomContainerColor,
+              child: _getCurrencyPicker(
+                currenciesList,
+                (newValue) => setState(() {
                   _selectedCurrency = newValue;
                 }),
               ),
             ),
           ]),
+    );
+  }
+
+  Widget _getCurrencyPicker(
+      List<String> listOfCurrency, Function(String?) onChanged) {
+    if (Platform.isIOS) {
+      return CupertinoPicker(
+        backgroundColor: _bottomContainerColor,
+        itemExtent: 32.0,
+        onSelectedItemChanged: (curIndex) =>
+            onChanged(listOfCurrency[curIndex]),
+        children:
+            listOfCurrency.map((curName) => _getPickerItem(curName)).toList(),
+      );
+    } else {
+      return DropdownButton<String>(
+        value: _selectedCurrency,
+        iconEnabledColor: Colors.white,
+        dropdownColor: Colors.black,
+        items: currenciesList
+            .map((curName) => DropdownMenuItem(
+                  value: curName,
+                  child: _getPickerItem(curName),
+                ))
+            .toList(),
+        onChanged: onChanged,
+      );
+    }
+  }
+
+  Widget _getPickerItem(String itemText) {
+    return Text(
+      itemText,
+      style: const TextStyle(color: Colors.white),
     );
   }
 }
