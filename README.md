@@ -1,16 +1,11 @@
-# bitcoin_ticker_flutter
+# Bitcoin Ticker Flutter
 
-A new Flutter project.
+An app displaying the current cryptocurrency exchange.
 
-## Getting Started
+<img src="/Screenshot_20230212_195820.png" width="300">
 
-This project is a starting point for a Flutter application.
+## Run app
 
-A few resources to get you started if this is your first Flutter project:
+To run app use <code>flutter run</code> command. 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+To be able to request exchange rates, get an api key on the [CoinAPI site](https://www.coinapi.io/) and place it in /lib/data/networking/credentials.dart as <code>static const String apiKey</code> field.
