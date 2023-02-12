@@ -61,7 +61,7 @@ class _PriceScreenState extends State<PriceScreen> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 15.0, horizontal: 28.0),
                             child: Text(
-                              '1 $cryptoName = ${_exchangeRates[cryptoName]?.round() ?? '?'} $_selectedCurrency',
+                              '1 $cryptoName = ${_exchangeRates[cryptoName]?.toStringAsFixed(2) ?? '?'} $_selectedCurrency',
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 fontSize: 20.0,
