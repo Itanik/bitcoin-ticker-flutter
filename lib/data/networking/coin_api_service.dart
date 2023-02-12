@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bitcoin_ticker_flutter/data/networking/credetials.dart';
+import 'package:bitcoin_ticker_flutter/data/networking/credentials.dart';
 import 'package:http/http.dart' as http;
 
 class CoinApiService {

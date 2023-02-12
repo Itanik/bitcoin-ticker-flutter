@@ -43,4 +43,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-/lib/data/networking/credetials.dart
+/lib/data/networking/credentials.dart
