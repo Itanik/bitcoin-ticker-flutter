@@ -1,6 +1,7 @@
 import 'dart:io' show Platform;
 
 import 'package:bitcoin_ticker_flutter/data/coin_data.dart';
+import 'package:bitcoin_ticker_flutter/data/networking/coin_api_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,9 +13,28 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
-  String? _selectedCurrency;
-  double? _exchangeRate;
+  String _selectedCurrency = currenciesList.first;
+  final Map<String, double?> _exchangeRates = {
+    for (var item in cryptoList) item: null
+  };
   final Color _bottomContainerColor = Colors.lightBlue;
+  final apiService = CoinApiService();
+
+  @override
+  void initState() {
+    super.initState();
+    updateExchangeRates();
+  }
+
+  void updateExchangeRates() {
+    _exchangeRates.updateAll((key, value) => null);
+    for (var cCurrency in cryptoList) {
+      apiService
+          .getExchangeRate(cCurrency, _selectedCurrency)
+          .then((rate) => setState(() => _exchangeRates[cCurrency] = rate))
+          .onError((error, stackTrace) => debugPrint(error.toString()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +61,7 @@ class _PriceScreenState extends State<PriceScreen> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 15.0, horizontal: 28.0),
                             child: Text(
-                              '1 $cryptoName = ${_exchangeRate ?? '?'} ${_selectedCurrency ?? currenciesList.first}',
+                              '1 $cryptoName = ${_exchangeRates[cryptoName]?.round() ?? '?'} $_selectedCurrency',
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 fontSize: 20.0,
@@ -61,7 +81,8 @@ class _PriceScreenState extends State<PriceScreen> {
               child: _getCurrencyPicker(
                 currenciesList,
                 (newValue) => setState(() {
-                  _selectedCurrency = newValue;
+                  _selectedCurrency = newValue ?? currenciesList.first;
+                  updateExchangeRates();
                 }),
               ),
             ),
