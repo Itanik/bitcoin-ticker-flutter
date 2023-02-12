@@ -1,6 +1,6 @@
 import 'dart:io' show Platform;
 
-import 'package:bitcoin_ticker_flutter/coin_data.dart';
+import 'package:bitcoin_ticker_flutter/data/coin_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +13,7 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
   String? _selectedCurrency;
+  double? _exchangeRate;
   final Color _bottomContainerColor = Colors.lightBlue;
 
   @override
@@ -40,7 +41,7 @@ class _PriceScreenState extends State<PriceScreen> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 15.0, horizontal: 28.0),
                             child: Text(
-                              '1 $cryptoName = ? ${_selectedCurrency ?? currenciesList.first}',
+                              '1 $cryptoName = ${_exchangeRate ?? '?'} ${_selectedCurrency ?? currenciesList.first}',
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 fontSize: 20.0,
